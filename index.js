@@ -14,6 +14,7 @@ const newsdetails = document.getElementById('newsdetails');
 //array
 let newsDataArr = [];
 
+
 // 2ono own api key
 // set korean news
 const API_KEY = "https://newsdata.io/api/1/news?apikey=pub_21663d45449ad5f30d19744e2e7212fa65c66";
