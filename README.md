@@ -1,4 +1,5 @@
 # News-Website-Js
 
 ## site : https://charming-palmier-523fe7.netlify.app/#genral
-###  news api free버전 사용해서 로컬호스트에서만 검색 뉴스 등 사용가능
+###  news api 무료 API를 사용했으나 호스팅안돼서 NEWSDATA api로 교체 
+### 하루 200건 검색 제한
