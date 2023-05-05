@@ -16,14 +16,15 @@ let newsDataArr = [];
 
 // 2ono own api key
 // set korean news
-const API_KEY = "9315583383614317814d7c611365a2ac";
-const HEADLINES_NEWS = "https://newsapi.org/v2/top-headlines?country=us&apiKey="
-const GENERAL_NEWS = "https://newsapi.org/v2/top-headlines?country=us&category=general&apiKey="
-const BUSINESS_NEWS = "https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey="
-const SPORTS_NEWS = "https://newsapi.org/v2/top-headlines?country=us&category=sports&apiKey="
-const ENTERTAINMENT_NEWS = "https://newsapi.org/v2/top-headlines?country=us&category=entertainment&apiKey="
-const TECHNOLOGY_NEWS = "https://newsapi.org/v2/top-headlines?country=us&category=technology&apiKey="
-const SEARCH_NEWS = "https://newsapi.org/v2/everything?q="
+const API_KEY = "https://newsdata.io/api/1/news?apikey=pub_21663d45449ad5f30d19744e2e7212fa65c66";
+const HEADLINES_NEWS = "&category=top&country=us"
+const GENERAL_NEWS = "&category=health&country=us"
+const BUSINESS_NEWS = "&category=business&country=us"
+const SPORTS_NEWS = "&category=sports&country=us"
+const ENTERTAINMENT_NEWS = "&category=entertainment&country=us"
+const TECHNOLOGY_NEWS = "&category=technology&country=us"
+const SEARCH_NEWS = "https://newsdata.io/api/1/news?apikey=pub_21663d45449ad5f30d19744e2e7212fa65c66&q="
+
 
 window.onload = function() {
     newsType.innerHTML="<h4>Headlines</h4>";
@@ -68,12 +69,12 @@ searchBtn.addEventListener("click", function () {
 });
 
 const fetchHeadlines = async () => {
-    const response = await fetch(HEADLINES_NEWS+API_KEY);
+    const response = await fetch(API_KEY+HEADLINES_NEWS);
     newsDataArr = [];
 
     if(response.status >= 200 && response.status < 300) {
         const myJson = await response.json();
-        newsDataArr = myJson.articles;
+        newsDataArr = myJson.results;
     } else {
         // handle errors
         console.log(response.status, response.statusText);
@@ -84,12 +85,12 @@ const fetchHeadlines = async () => {
 
 
 const fetchGeneralNews = async () => {
-    const response = await fetch(GENERAL_NEWS+API_KEY);
+    const response = await fetch(API_KEY+GENERAL_NEWS);
     newsDataArr = [];
 
     if(response.status >= 200 && response.status < 300) {
         const myJson = await response.json();
-        newsDataArr = myJson.articles;
+        newsDataArr = myJson.results;
     } else {
         // handle errors
         console.log(response.status, response.statusText);
@@ -99,12 +100,12 @@ const fetchGeneralNews = async () => {
 }
 
 const fetchBusinessNews = async () => {
-    const response = await fetch(BUSINESS_NEWS+API_KEY);
+    const response = await fetch(API_KEY+BUSINESS_NEWS);
     newsDataArr = [];
 
     if(response.status >= 200 && response.status < 300) {
         const myJson = await response.json();
-        newsDataArr = myJson.articles;
+        newsDataArr = myJson.results;
     } else {
         // handle errors
         console.log(response.status, response.statusText);
@@ -114,12 +115,12 @@ const fetchBusinessNews = async () => {
 }
 
 const fetchSportsNews = async () => {
-    const response = await fetch(SPORTS_NEWS+API_KEY);
+    const response = await fetch(API_KEY+SPORTS_NEWS);
     newsDataArr = [];
 
     if(response.status >= 200 && response.status < 300) {
         const myJson = await response.json();
-        newsDataArr = myJson.articles;
+        newsDataArr = myJson.results;
     } else {
         // handle errors
         console.log(response.status, response.statusText);
@@ -129,12 +130,12 @@ const fetchSportsNews = async () => {
 }
 
 const fetchTechnologyNews = async () => {
-    const response = await fetch(TECHNOLOGY_NEWS+API_KEY);
+    const response = await fetch(API_KEY+TECHNOLOGY_NEWS);
     newsDataArr = [];
 
     if(response.status >= 200 && response.status < 300) {
         const myJson = await response.json();
-        newsDataArr = myJson.articles;
+        newsDataArr = myJson.results;
     } else {
         // handle errors
         console.log(response.status, response.statusText);
@@ -144,13 +145,13 @@ const fetchTechnologyNews = async () => {
 }
 
 const fetchEntertainmentNews = async () => {
-    const response = await fetch(ENTERTAINMENT_NEWS+API_KEY);
+    const response = await fetch(API_KEY+ENTERTAINMENT_NEWS);
     newsDataArr = [];
 
     if(response.status >= 200 && response.status < 300) {
         const myJson = await response.json();
         console.log(myJson);
-        newsDataArr = myJson.articles;
+        newsDataArr = myJson.results;
     } else {
         // handle errors
         console.log(response.status, response.statusText);
@@ -163,12 +164,12 @@ const fetchQueryNews = async () => {
     if(newsQuery.value == null)
         return;
 
-    const response = await fetch(SEARCH_NEWS+ encodeURIComponent(newsQuery.value)+"&apiKey="+API_KEY);
+    const response = await fetch(SEARCH_NEWS+ encodeURIComponent(newsQuery.value));
     newsDataArr = [];
 
     if(response.status >= 200 && response.status < 300) {
         const myJson = await response.json();
-        newsDataArr = myJson.articles;
+        newsDataArr = myJson.results;
     } else {
         // handle errors
         console.log(response.status, response.statusText);
@@ -189,7 +190,7 @@ function displayNews() {
 
     newsDataArr.forEach(news => {
 
-        let date = news.publishedAt.split("T");
+        let date = news.pubDate.split("-");
 
         let col = document.createElement('div');
         col.className = "col-sm-12 col-md-4 col-lg-3 p-2 card";
@@ -200,7 +201,7 @@ function displayNews() {
         let image = document.createElement('img');
         image.setAttribute("height", "marchparent");
         image.setAttribute("width","100%");
-        image.src=news.urlToImage;
+        image.src=news.image_url;
 
         let cardBody = document.createElement('div');
 
@@ -219,7 +220,7 @@ function displayNews() {
         let link = document.createElement('a');
         link.className="btn btn-dark";
         link.setAttribute("target", "_blank");
-        link.href = news.url;
+        link.href = news.link;
         link.innerHTML="Read More";
 
         cardBody.appendChild(newsHeading);
